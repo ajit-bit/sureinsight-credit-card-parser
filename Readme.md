@@ -67,12 +67,6 @@ A full-stack credit card statement parser built with FastAPI (backend) and React
 # Navigate to backend directory
 cd backend
 
-# Create and activate virtual environment
-python -m venv venv
-# Windows:
-.\venv\Scripts\activate
-# Unix/macOS:
-source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -137,14 +131,6 @@ sureinsight-credit-card-parser/
 - [x] Handle real-world PDF formats
 - [x] Deliver a polished, user-friendly interface
 
-## 🔮 Future Enhancements
-
-- [ ] Transaction-level detail extraction
-- [ ] Interactive spending analytics
-- [ ] OCR support for scanned PDFs
-- [ ] Data export (CSV/JSON)
-- [ ] User authentication
-- [ ] Statement history and comparison
 
 ## 👤 Author
 
@@ -152,6 +138,3 @@ sureinsight-credit-card-parser/
 B.Tech – Information Technology  
 KJ Somaiya College of Engineering
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
