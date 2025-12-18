@@ -49,10 +49,12 @@ A full-stack credit card statement parser built with FastAPI (backend) and React
 
 ### Backend
 - FastAPI
-- Python 3.8+
-- Uvicorn
-- PyPDF2
-- Regex
+Python 3.8+
+Uvicorn
+pdfplumber (PDF text extraction)
+python-multipart (file uploads)
+Pydantic (data validation & schemas)
+Regex (pattern-based data extraction)
 
 ## 🚀 Quick Start
 
