@@ -1,32 +1,57 @@
 from app.services.base_parser import BaseParser
 
-
 class SBIParser(BaseParser):
     def parse(self):
         return {
-            "bank": "SBI Card",
+            "bank": "State Bank of India",
 
-            "outstanding_amount": self.find(
-                r"(?:Total Amount Due|Total Outstanding|Closing Balance|Outstanding Amount)\s*:?\s*₹([\d,]+)"
+            # 16 July 2024 to 15 August 2024
+            "billing_cycle": self.find(
+                r"Statement Period\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4}\s+to\s+\d{1,2}\s+[A-Za-z]+\s+\d{4})"
             ),
 
-            "minimum_due": self.find(
-                r"(?:Minimum Amount Due|Minimum Due|Minimum Payment Due)\s*:?\s*₹([\d,]+)"
-            ),
-
+            # 03 September 2024
             "due_date": self.find(
-                r"(?:Payment Due Date|Due Date)\s*:?\s*(\d{2}[/-]\d{2}[/-]\d{4})"
+                r"Payment Due Date\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})"
             ),
 
-            "interest_rate": self.find(
-                r"Interest Rate\s*:?\s*([\d.]+%)"
+            # 16 August 2024
+            "statement_issue_date": self.find(
+                r"Statement Issue Date\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})"
             ),
 
-            "late_fee": self.find(
-                r"(?:Late Payment Charges|Late Fee|Late Payment Fee)\s*:?\s*₹([\d,]+)"
+            # 13,385.00
+            "previous_balance": self.find(
+                r"Previous Balance\s+([\d,]+\.\d{2})"
             ),
 
-            "transaction_count": self.transaction_count(),
+            # 23,458.00
+            "outstanding_amount": self.find(
+                r"Total Amount Due\s+([\d,]+\.\d{2})"
+            ),
 
-            "top_spending_category": self.top_category(),
+            # 1,880.00
+            "minimum_due": self.find(
+                r"Minimum Amount Due\s+([\d,]+\.\d{2})"
+            ),
+
+            # 50,000.00
+            "credit_limit": self.find(
+                r"Total Credit Limit\s+([\d,]+\.\d{2})"
+            ),
+
+            # 15,842.00
+            "available_credit": self.find(
+                r"Available Credit\s+([\d,]+\.\d{2})"
+            ),
+
+            # 9,600.00
+            "used_credit": self.find(
+                r"Used Credit\s+([\d,]+\.\d{2})"
+            ),
+
+            # 744
+            "reward_points": self.find(
+                r"Points Earned\s+(\d+)"
+            ),
         }

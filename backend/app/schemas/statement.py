@@ -1,16 +1,16 @@
 from pydantic import BaseModel
 from typing import Optional
 
-
 class StatementResponse(BaseModel):
     bank: str
 
-    outstanding_amount: Optional[str]
-    minimum_due: Optional[str]
-    due_date: Optional[str]
+    outstanding_amount: Optional[str] = None
+    minimum_due: Optional[str] = None
+    due_date: Optional[str] = None
 
-    interest_rate: str
-    late_fee: str
+    credit_limit: Optional[str] = None
+    available_credit: Optional[str] = None
+    used_credit: Optional[str] = None
 
-    transaction_count: int
-    top_spending_category: str
+    reward_points: Optional[str] = None
+    statement_issue_date: Optional[str] = None

@@ -1,74 +1,55 @@
 export default function ResultGrid({ data }) {
   if (!data || Object.keys(data).length === 0) return null;
 
-  function formatLabel(key) {
-    return key
-      .replaceAll("_", " ")
-      .replace(/\b\w/g, (char) => char.toUpperCase());
-  }
+  const FIELDS = [
+    ["billing_cycle", "Billing Cycle"],
+    ["due_date", "Payment Due Date"],
+    ["statement_issue_date", "Statement Issue Date"],
+    ["previous_balance", "Previous Balance"],
+    ["outstanding_amount", "Total Outstanding"],
+    ["minimum_due", "Minimum Due"],
+    ["credit_limit", "Credit Limit"],
+    ["available_credit", "Available Credit"],
+    ["used_credit", "Used Credit"],
+    ["reward_points", "Reward Points"],
+  ];
 
-  function formatCurrency(value) {
-    if (value === null || value === undefined) return "—";
-    if (isNaN(value)) return value;
-    return `₹${Number(value).toLocaleString("en-IN")}`;
-  }
+  const formatCurrency = (v) =>
+    v ? `₹${Number(v).toLocaleString("en-IN")}` : "—";
 
-  function formatDate(value) {
-    if (!value) return "—";
-    const date = new Date(value);
-    if (isNaN(date.getTime())) return value;
-    return date.toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
+  const formatDate = (v) => {
+    if (!v) return "—";
+    const d = new Date(v);
+    return isNaN(d) ? v : d.toLocaleDateString("en-IN", {
+      day: "numeric", month: "short", year: "numeric"
     });
-  }
+  };
 
-  function formatValue(key, value) {
-    if (value === null || value === undefined) return "—";
-
-    if (
-      ["outstanding_amount", "minimum_due", "late_fee"].includes(key)
-    ) {
-      return formatCurrency(value);
-    }
-
-    if (key === "due_date") {
-      return formatDate(value);
-    }
-
-    if (key === "top_spending_category" && typeof value === "string") {
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    }
-
-    return value;
-  }
+  const formatValue = (key, v) => {
+    if (!v) return "—";
+    if (["previous_balance","outstanding_amount","minimum_due","credit_limit","available_credit","used_credit"].includes(key))
+      return formatCurrency(v);
+    if (key.includes("date")) return formatDate(v);
+    if (key === "reward_points") return Number(v).toLocaleString("en-IN");
+    return v;
+  };
 
   return (
-    <div className="mt-12 w-full max-w-5xl">
-      {/* Section Header */}
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">
-          Statement Summary
-        </h3>
-        <p className="text-sm text-gray-500 mt-1">
-          The following information was parsed from the uploaded statement.
-        </p>
+    <div className="mt-14 w-full max-w-5xl mx-auto">
+      
+      {/* Bank Header */}
+      <div className="mb-8 text-center">
+        <h2 className="text-3xl font-bold text-gray-900">{data.bank}</h2>
+        <p className="text-gray-500 text-sm">Credit Card Statement Summary</p>
       </div>
 
-      {/* Result Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {Object.entries(data).map(([key, value]) => (
-          <div
-            key={key}
-            className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm"
-          >
-            <p className="text-xs uppercase tracking-wide text-gray-500">
-              {formatLabel(key)}
-            </p>
-
-            <p className="mt-2 text-lg font-semibold text-gray-900">
-              {formatValue(key, value)}
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {FIELDS.map(([key, label]) => (
+          <div key={key} className="bg-white rounded-xl border p-6 shadow-sm">
+            <p className="text-xs text-gray-500 uppercase">{label}</p>
+            <p className="mt-2 text-xl font-semibold text-gray-900">
+              {formatValue(key, data[key])}
             </p>
           </div>
         ))}

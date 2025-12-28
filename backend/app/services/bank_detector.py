@@ -1,13 +1,15 @@
-def detect_bank(text: str) -> str:
-    t = text.lower()
-    if "icici" in t:
-        return "ICICI"
-    if "hdfc" in t:
-        return "HDFC"
-    if "state bank" in t or "sbi" in t:
+def detect_bank(text: str):
+    t = text.upper()
+
+    if "STATE BANK OF INDIA" in t or "SBI CARD" in t:
         return "SBI"
-    if "axis" in t:
+    if "ICICI" in t:
+        return "ICICI"
+    if "HDFC" in t:
+        return "HDFC"
+    if "AXIS" in t:
         return "AXIS"
-    if "american express" in t or "amex" in t:
+    if "AMERICAN EXPRESS" in t or "AMEX" in t:
         return "AMEX"
-    return "UNKNOWN"
+
+    return None
